@@ -1,0 +1,74 @@
+<html>	
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body style="background-color: darkgray;">
+	<br/>
+	<br/>
+	<h1 style="color: black; font-family: Verdana"><font size="10%"><center>Add Contact Information:</center></font></h1>
+	<br/>
+	<br/>
+	<form id="editForm">
+		<label for="firstname" style="color:black; font-family: century gothic; margin-left: 50px;">First name</label>
+		<input type="text" name="firstname" id="firstname" style="margin-left: 50px;"><br/>
+		<label for="lastname" style="color:black; font-family: century gothic; margin-left: 50px;">Last name</label>
+		<input type="text" name="lastname" id="lastname" style="margin-left: 48px;"><br/>
+		<label for="mobile" style="color:black; font-family: century gothic; margin-left: 50px;">Mobile</label>
+		<input type="text" name="mobile" id="mobile" style="margin-left: 75px;"><br/>
+		<label for="email" style="color:black; font-family: century gothic; margin-left: 50px;">Email</label>
+		<input type="text" name="email" id="email" style="margin-left: 87px;"><br/>
+        <br/>
+        <hr>
+        <br>
+		<label for="avatar"><font style="color:black; font-family: century gothic;"><b>Select a file:</b></font></label><br/>
+        <br>
+		<input type="file" name="avatar" id="avatar" style=" border: 0px;color:black;
+			border-radius: 20%; font-size: 25px; padding: 15px;"><br/>
+			
+		<button type="submit" id="submitForm" style=" border: 0px;color:grey; background-color:black;
+ font-size: 15; padding: 20px; margin-left: 50px;">Submit</button>
+	</form>
+	<br/><br/>
+			<br/>
+			<br/>
+	<button id="homeLink" type="button" style=" border: 0px;color:grey; background-color: black;
+			border-radius: 20%; font-size: 25px; padding: 15px;">Home</button>
+	
+	<script src="config.js"></script>
+	<script>
+	
+		document.getElementById("submitForm").addEventListener('click', submitForm);
+		document.getElementById("homeLink").addEventListener('click', homeLink);
+		
+		function submitForm(e){
+			e.preventDefault();
+			
+			const form = new FormData(document.querySelector('#editForm'));
+			form.append('apiKey', apiKey);
+			
+			fetch(rootPath + 'controller/insert-contact/', {
+				method: 'POST',
+				headers: {'Accept': 'application/json, */*'},
+				body: form
+			})
+			.then(function(response){
+				return response.text();
+			})
+			.then(function(data){
+				if(data == "1"){
+					alert("Contact added.");
+					homeLink();
+				}else{
+					alert(data);
+					homeLink();
+					}
+			})
+		}
+	
+		function homeLink(){
+			window.open("index.html", "_self");
+		}
+	</script>
+</body>
+</html>
